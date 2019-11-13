@@ -1,0 +1,15 @@
+
+
+readline
+
+1. input folder 
+2. validate input data
+2. csv or tsv variable
+2. read file
+3. validate data and generate 2 outputs w/o header: one with valid the second with invalid rows
+
+
+fast-csv options
+
+1. csv or tsv variable
+2. number of fields
