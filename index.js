@@ -1,34 +1,16 @@
+var path = require('path');
 const process = require('./app')
-const fcsv = require('fast-csv')
-const obj = {}
 let key = 0
 const out1 = []
 const out2 = []
-// process.askQuestions()
+let numFields = 0
+let isTSV = false
+let filePath = __dirname 
+let fileName = isTSV ? 'data.tsv' : 'data.csv'
+const dirPath = path.join(filePath,fileName)
+let delimeter = isTSV ? '\t' : ','
 
-const run = async () => {
-    const res = await process.readFile('./data.csv')
-    const stream = fcsv
-                            .parse({ headers: false })
-                            .validate(data => {
-                                return data.length===3
-                            })
-                            .on('error', error => console.error(error))
-                            .on('data', row => {
-                                key++
-                                out1[key]=row+'\n'
-                                if(out1[3]) {
-                                    delete out1[1]  // removing headers
-                                    process.writeFile('out/out-valid.csv',out1.join('')  )
-                                }
-                            })
-                            .on('data-invalid', (row) => {        
-                                out2.push(row+'\n')
-                                console.log('i',row);
-                                process.writeFile('out/out-invalid.csv',out2)
-                            })
-    stream.write(res);
-    stream.end();
-  }
-  
-  run()
+
+process.askQuestions({
+    key:key, dirPath:dirPath, delimeter:delimeter,numFields:numFields, out1:out1,out2:out2, isTSV:isTSV
+})
